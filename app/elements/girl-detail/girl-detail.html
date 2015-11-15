@@ -1,0 +1,173 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+
+<link rel="import" href="../app-icons.html">
+
+<dom-module id="girl-detail">
+
+  <template>
+
+    <style>
+      :host {
+        display: block;
+        min-height: 600px;
+        visibility: hidden;
+        opacity: 0;
+        transition-duration: 1s;
+        transition-property: visibility, opacity;
+      }
+      :host(.loaded) {
+        visibility: visible;
+        opacity: 1;
+      }
+      header {
+        position: relative;
+        min-height: 90px;
+        padding: 24px 0;
+        text-align: center;
+        font-size: 14px;
+        letter-spacing: 1px;
+        color: #666;
+      }
+      .title {
+        padding: 16px;
+        font-size: 30px;
+        line-height: 1.4;
+        font-weight: 400;
+      }
+      paper-fab {
+        position: absolute;
+        bottom: -28px;;
+        right: 40px;
+        z-index: 1000;
+        background-color: var(--app-primary-color);
+      }
+
+      #full-height-container {
+        height: 400px;
+        background: #fff;
+      }
+      #full-height-container iron-image {
+        height: 100%;
+        --iron-image-height: 100%;
+      }
+
+      #main {
+        padding-bottom: 32px;
+        border-top: 1px solid #ddd;
+        font-size: 18px;
+        line-height: 32px;
+        letter-spacing: 1px;
+      }
+      #main img {
+        max-width: 100%;
+      }
+      #main p {
+        padding: 0 16px;
+      }
+      /* narrow layout */
+      @media (max-width: 808px) {
+        #main {
+          padding: 16px;
+        }
+        /* position fab to the bottom right corner of the screen */
+        paper-fab {
+          position: fixed;
+          top: auto;
+          right: 24px;
+          bottom: 24px;
+        }
+      }
+    </style>
+
+    <header>
+      <div class="title">{{girl.kindCd}}</div>
+      <div>{{girl.age}}</div>
+      <a href="http://" target="_blank">
+        <paper-fab icon="app:googleplus-reshare"></paper-fab>
+      </a>
+    </header>
+
+
+    <section id="main">
+      <div id="full-height-container">
+        <iron-image class="image" preload fade src="{{girl.popfile}}"></iron-image>
+      </div>
+      <paper-item>상태 {{girl.processState}}</paper-item>
+      <paper-item>나이 {{girl.age}}</paper-item>
+      <paper-item>색상 {{girl.colorCd}}</paper-item>
+      <paper-item>체중 {{girl.weight}}</paper-item>
+      <paper-item>성별 {{display('sex', girl.sexCd)}}</paper-item>
+      <paper-item>중성화 {{display('neuter', girl.neuterYn)}}</paper-item>
+      <paper-item>품종 {{girl.kindCd}}</paper-item>
+      <paper-item>특징 {{girl.specialMark}}</paper-item>
+
+      <paper-item>유기번호 {{girl.desertionNo}}</paper-item>
+      <paper-item>접수일 {{girl.happenDt}}</paper-item>
+      <paper-item>발견장소 {{girl.happenPlace}}</paper-item>
+
+      <paper-item>공고번호 {{girl.noticeNo}}</paper-item>
+      <paper-item>공교시작일 {{girl.noticeSdt}}</paper-item>
+      <paper-item>공고종료일 {{girl.noticeEdt}}</paper-item>
+
+      <paper-item>보호소 이름 {{girl.careNm}}</paper-item>
+      <paper-item>보호소 전화번호 {{girl.careTel}}</paper-item>
+      <paper-item>보호소 장소 {{girl.careAddr}}</paper-item>
+
+      <paper-item>관할기관 {{girl.orgNm}}</paper-item>
+      <paper-item>담당자 {{girl.chargeNm}}</paper-item>
+      <paper-item>담당자 전화번호 {{girl.officetel}}</paper-item>
+    </section>
+
+  </template>
+
+  <script>
+    var STATE_MAP = {
+      sex: {
+        F: '암컷',
+        M: '수컷',
+        Q: '미상'
+      },
+      neuter: {
+        Y: '예',
+        N: '아니오',
+        U: '미상'
+      }
+    };
+
+    Polymer({
+      is: 'girl-detail',
+      properties: {
+        girl: {
+          type: Object
+        }
+      },
+
+      observers: [
+        'girlChanged(girl.*)'
+      ],
+
+      girlChanged: function(changeRecord) {
+        this.toggleClass('loaded', true);
+      },
+
+      display: function(type, state) {
+        return STATE_MAP[type][state];
+      }
+
+      // observers: [
+      //   '_contentChanged(girl.processState, girl)'
+      // ],
+      // _contentChanged: function(content) {
+      //   this.$.main.innerHTML = content;
+      //   this.scopeSubtree(this.$.main);
+      //   this.toggleClass('loaded', true);
+      // }
+    });
+  </script>
+
+</dom-module>

@@ -1,0 +1,51 @@
+<script src="../bower_components/page/page.js"></script>
+<script>
+  window.addEventListener('WebComponentsReady', function() {
+
+    // Page.js for routing.
+    // https://visionmedia.github.io/page.js/
+
+    // Middleware
+    function scrollToTop(ctx, next) {
+      // app.scrollPageToTop();
+      next();
+    }
+
+    // Routes
+    page('/', scrollToTop, function() {
+      app.route = 'recent';
+    });
+
+    page('/cats', scrollToTop, function() {
+      app.route = 'cats';
+    });
+
+    page('/dogs', scrollToTop, function() {
+      app.route = 'dogs';
+    });
+
+    page('/etcs', scrollToTop, function() {
+      app.route = 'etcs';
+    });
+
+    page('/:upkind/:desertionNo', scrollToTop, function(data) {
+      app.upkind = data.params.upkind;
+      app.route = 'detail';
+
+      var petList = app[app.upkind].items.item;
+      for (var j=0, a; a=petList[j]; j++) {
+        if (a.desertionNo === parseInt(data.params.desertionNo)) {
+          app.abandonment = a;
+          return;
+        }
+      }
+
+    });
+
+    // add #! before urls
+    page({
+      hashbang: true
+    });
+
+  });
+</script>

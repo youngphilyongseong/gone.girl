@@ -1,0 +1,54 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+
+<dom-module id="girl-thumb">
+
+  <template>
+
+    <style>
+      :host {
+        @apply(--layout-vertical);
+        background-color: #fff;
+        text-decoration: none;
+        font-size: 22px;
+        line-height: 32px;
+      }
+      .image {
+        @apply(--layout-flex);
+        background-color: #dadada;
+      }
+      .title {
+        height: 64px;
+        @apply(--layout-horizontal);
+        @apply(--layout-center-center);
+        padding: 0 8px;
+        text-align: center;
+        letter-spacing: 0.8px;
+        line-height: 1.15;
+      }
+      .age {
+        padding-left: 12px;
+        font-size: 11px;
+        color: #999;
+        letter-spacing: 0.4px;
+        white-space: nowrap;
+      }
+    </style>
+
+    <iron-image class="image" preload fade sizing="cover" src="{{girl.popfile}}"></iron-image>
+    <div class="title"><span>{{girl.kindCd}}<span class="age">{{girl.age}}</span></span></div>
+
+  </template>
+
+  <script>
+    Polymer({
+      is: 'girl-thumb',
+      extends: 'a',
+      properties: {
+        girl: Object
+      }
+    });
+  </script>
+
+</dom-module>

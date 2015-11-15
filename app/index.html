@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gone Girl</title>
+
+  <link rel="stylesheet" href="/styles/main.css">
+
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="elements/elements.html">
+
+  <style is="custom-style" include="shared-styles"></style>
+</head>
+
+<body unresolved class="fullbleed layout vertical">
+
+  <template is="dom-bind" id="app">
+
+    <paper-drawer-panel id="paperDrawerPanel">
+
+      <paper-header-panel drawer mode="seamed">
+
+        <paper-toolbar id="drawerToolbar" class="medium-tall">
+          <div class="title bottom paper-font-title">나를 찾아줘</div>
+        </paper-toolbar>
+
+        <paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
+          <a data-route="recent" href="/" on-click="onDataRouteClick">
+            <iron-icon icon="home"></iron-icon>
+            <span>오늘!</span>
+          </a>
+
+          <a data-route="cats" href="/cats" on-click="onDataRouteClick">
+            <iron-icon icon="info"></iron-icon>
+            <span>야옹</span>
+          </a>
+
+          <a data-route="dogs" href="/dogs" on-click="onDataRouteClick">
+            <iron-icon icon="info"></iron-icon>
+            <span>멍멍</span>
+          </a>
+
+          <a data-route="ets" href="z/etcs" on-click="onDataRouteClick">
+            <iron-icon icon="info"></iron-icon>
+            <span>기타</span>
+          </a>
+        </paper-menu>
+
+      </paper-header-panel>
+
+      <paper-header-panel main mode="waterfall">
+
+        <paper-toolbar id="mainToolbar" class="medium-tall">
+          <paper-icon-button icon="menu" paper-drawer-toggle hidden$="{{_equal(route,'detail')}}"></paper-icon-button>
+          <a href="/{{upkind}}"  hidden$="{{!_equal(route, 'detail')}}">
+            <paper-icon-button icon="arrow-back"></paper-icon-button>
+          </a>
+
+          <div class="bottom title paper-font-display3">Bottom Title</div>
+        </paper-toolbar>
+
+        <div class="content fit">
+
+          <iron-pages attr-for-selected="data-route" selected="{{route}}">
+
+            <template is="dom-if" if="{{_equal(route, 'recent')}}">
+              <section data-route="recent">
+
+                <two-columns-grid column-width="396" gutter="8">
+                  <template is="dom-repeat" items="{{recent.items.item}}" as="pet">
+                    <a is="girl-thumb" class="article-headline" girl="{{pet}}"
+                          href="/recent/{{pet.desertionNo}}/"></a>
+                  </template>
+                </two-columns-grid>
+
+              </section>
+            </template>
+
+            <template is="dom-if" if="{{_equal(route, 'cats')}}">
+              <section data-route="cats">
+                <iron-list items="{{cats.items.item}}">
+                  <template>
+                    <div>
+                      <span>[[item.processState]]</span>
+                    </div>
+                  </template>
+                </iron-list>
+              </section>
+            </template>
+
+            <!--
+            <template is="dom-if" if="{{_equal(route, 'cats')}}">
+              <section data-route="cats">
+
+                <two-columns-grid column-width="396" gutter="8">
+                  <template is="dom-repeat" items="{{cats.items.item}}" as="cat">
+                    <a is="girl-thumb" class="article-headline" girl="{{cat}}"
+                          href="/cats/{{cat.desertionNo}}/"></a>
+                  </template>
+                </two-columns-grid>
+
+              </section>
+            </template>
+
+            <template is="dom-if" if="{{_equal(route, 'dogs')}}">
+              <section data-route="dogs">
+
+                <two-columns-grid column-width="396" gutter="8">
+                  <template is="dom-repeat" items="{{dogs.items.item}}" as="dog">
+                    <a is="girl-thumb" class="article-headline" girl="{{dog}}"
+                          href="/dogs/{{dog.desertionNo}}/"></a>
+                  </template>
+                </two-columns-grid>
+
+              </section>
+            </template>
+           -->
+
+            <template is="dom-if" if="{{_equal(route, 'etcs')}}">
+              <section data-route="etcs">
+
+                <two-columns-grid column-width="396" gutter="8">
+                  <template is="dom-repeat" items="{{etcs.items.item}}" as="etc">
+                    <a is="girl-thumb" class="article-headline" girl="{{etc}}"
+                          href="/etcs/{{etc.desertionNo}}/"></a>
+                  </template>
+                </two-columns-grid>
+
+              </section>
+            </template>
+
+            <template is="dom-if" if="{{_equal(route, 'detail')}}">
+              <section data-route="detail">
+
+                <girl-detail name="detail" girl="{{abandonment}}"></girl-detail>
+
+              </section>
+            </template>
+
+          </iron-pages>
+
+        </div>
+
+      </paper-header-panel>
+
+    </paper-drawer-panel>
+
+    <iron-ajax
+      auto
+      url="http://localhost:3000/api/recent"
+      handle-as="json"
+      with-credentials
+      content-type="application/json"
+      last-response="{{recent}}"></iron-ajax>
+
+    <!-- <iron-ajax
+      auto
+      url="http://localhost:3000/api/cats"
+      handle-as="json"
+      with-credentials
+      content-type="application/json"
+      last-response="{{cats}}"></iron-ajax>
+
+    <iron-ajax
+      auto
+      url="http://localhost:3000/api/dogs"
+      handle-as="json"
+      with-credentials
+      content-type="application/json"
+      last-response="{{dogs}}"></iron-ajax>
+
+    <iron-ajax
+      auto
+      url="http://localhost:3000/api/etcs"
+      handle-as="json"
+      with-credentials
+      content-type="application/json"
+      last-response="{{etcs}}"></iron-ajax> -->
+
+  </template>
+
+  <script src="scripts/app.js"></script>
+
+</body>
+
+</html>
